@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,30 +17,42 @@ namespace eindwerk_Luka_Balcaen
         {
             InitializeComponent();
         }
+        List<string> toegelaten = new List<string>();
 
         private void SecurityBox_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 30; i++)
-            {
-                InfoTabel.Rows.Add("ik", i);
+            string[] ports = SerialPort.GetPortNames();
 
+            foreach (string port in ports)//Hier wordt Alle poorten bepaald en in de combobox gestoken.
+            {
+                COMLijst.Items.Add(port);
             }
-                
-           
+
+            if (ports.Length > 0)
+            {
+                COMLijst.SelectedIndex = 0;
+            }
+
+
         }
 
         private void VerwijderKnop_Click(object sender, EventArgs e)
         {
-            try
+            wachtwoord wachtwoord = new wachtwoord();
+            wachtwoord.ShowDialog(); // wacht tot form sluit
+            if (wachtwoord.DialogResult == DialogResult.OK)
             {
-                foreach (DataGridViewRow row in InfoTabel.SelectedRows)
+                try
                 {
-                    InfoTabel.Rows.RemoveAt(row.Index);
+                    foreach (DataGridViewRow row in InfoTabel.SelectedRows)
+                    {
+                        InfoTabel.Rows.RemoveAt(row.Index);
+                    }
                 }
-            }
-            catch
-            {
-                MessageBox.Show("Selecteer een rij om te verwijderen.");
+                catch
+                {
+                    MessageBox.Show("Selecteer een rij om te verwijderen.");
+                }
             }
         }
 
@@ -50,16 +63,26 @@ namespace eindwerk_Luka_Balcaen
 
             if (wachtwoord.DialogResult == DialogResult.OK)
             {
-                if (EigenaarBox.Text != "")
+                if (EigenaarBox.Text != "" && IDBOX.Text !="")
                 {
-                    InfoTabel.Rows.Add("ik", EigenaarBox.Text);
+                    InfoTabel.Rows.Add(IDBOX.Text, EigenaarBox.Text);
+                    toegelaten.Add(IDBOX.Text);
+
                     EigenaarBox.Text = "";
                     EigenaarBox.BackColor = Color.White;
+                    IDBOX.Text = "";
                 }
                 else
                 {
-                    MessageBox.Show("Voeg eerst een naam voor de eigenaar");
-                    EigenaarBox.BackColor = Color.Red;
+                    MessageBox.Show("Je moet alle parameters invullen");
+                    if(EigenaarBox.Text == "")
+                    {
+                        EigenaarBox.BackColor = Color.Red;
+                    }
+                    if(IDBOX.Text == "")
+                    {
+                        IDBOX.BackColor = Color.Red;
+                    }
                 }
             }
         }
@@ -71,8 +94,82 @@ namespace eindwerk_Luka_Balcaen
             {
                 InfoTabel.Rows.Clear();
             }
-            
-            
+
+        }
+
+        private void OntvangData(object sender, SerialDataReceivedEventArgs e)
+        {
+            string data = Poort.ReadLine();
+            DataBewerk(data);
+
+        }
+        private void DataBewerk(string data)
+        {
+            Poort.WriteLine("0");
+            Poort.WriteLine("255");
+            if (toegelaten.Contains(data))
+            {
+                Poort.WriteLine("1");
+            }
+            else
+            {
+                Poort.WriteLine("0");
+            }
+        }
+        private void BevestigKnop_Click(object sender, EventArgs e)
+        {
+            if (COMLijst.Text == "")
+            {
+                MessageBox.Show("Selecteer een COM poort");
+                COMLijst.BackColor = Color.Red;
+                return;
+            }
+            else
+            {
+                COMLijst.BackColor = Color.White;
+                Poort.PortName = COMLijst.Text;
+            }
+        }
+
+        private void SluitKnop_Click(object sender, EventArgs e)
+        {
+            Poort.Close();
+            OpenKnop.Enabled = true;
+            SluitKnop.Enabled = false;
+            OpenKnop.Visible = true;
+            SluitKnop.Visible = false;
+
+        }
+
+        private void OpenKnop_Click(object sender, EventArgs e)
+        {
+            if (Poort.PortName!= " ")
+            {
+                try
+                {
+                    Poort.Open();
+                    OpenKnop.Enabled = false;
+                    SluitKnop.Enabled = true;
+                    OpenKnop.Visible = false;
+                    SluitKnop.Visible = true;
+
+                }
+                catch
+                {
+                    MessageBox.Show("De poort is al in gebruik of niet beschikbaar");
+                    COMLijst.BackColor = Color.Red;
+                    
+                }
+                
+
+            }
+            else
+            {
+                MessageBox.Show("Selecteer een COM poort");
+                COMLijst.BackColor = Color.Red;
+                return;
+            }
+
         }
     }
 }

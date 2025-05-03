@@ -55,6 +55,7 @@
             this.BevestigKnop.AutoSize = true;
             this.BevestigKnop.BackColor = System.Drawing.SystemColors.AppWorkspace;
             this.BevestigKnop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.BevestigKnop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BevestigKnop.Location = new System.Drawing.Point(145, 83);
             this.BevestigKnop.Name = "BevestigKnop";
             this.BevestigKnop.Size = new System.Drawing.Size(76, 18);
