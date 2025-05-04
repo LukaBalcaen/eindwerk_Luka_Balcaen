@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 // Luka Balcaen
-// eindeindwerk: een beveiligde box makenen.
+// eindeindwerk: een beveiligde doos makenen.
 
 namespace eindwerk_Luka_Balcaen
 {
