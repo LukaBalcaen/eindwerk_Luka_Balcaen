@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+// Luka Balcaen
+// eindeindwerk: een beveiligde box makenen.
 
 namespace eindwerk_Luka_Balcaen
 {
@@ -23,7 +25,7 @@ namespace eindwerk_Luka_Balcaen
         {
             string[] ports = SerialPort.GetPortNames();
 
-            foreach (string port in ports)//Hier wordt Alle poorten bepaald en in de combobox gestoken.
+            foreach (string port in ports)
             {
                 COMLijst.Items.Add(port);
             }
@@ -33,18 +35,17 @@ namespace eindwerk_Luka_Balcaen
                 COMLijst.SelectedIndex = 0;
             }
 
-
         }
 
         private void VerwijderKnop_Click(object sender, EventArgs e)
         {
             wachtwoord wachtwoord = new wachtwoord();
             wachtwoord.ShowDialog(); // wacht tot form sluit
-            if (wachtwoord.DialogResult == DialogResult.OK)
+            if (wachtwoord.DialogResult == DialogResult.OK)// hier gaan we kijken op de resultaat juist is.
             {
                 try
                 {
-                    foreach (DataGridViewRow row in InfoTabel.SelectedRows)
+                    foreach (DataGridViewRow row in InfoTabel.SelectedRows)// verwijder geselecteerde rij
                     {
                         InfoTabel.Rows.RemoveAt(row.Index);
                     }
@@ -66,7 +67,7 @@ namespace eindwerk_Luka_Balcaen
                 if (EigenaarBox.Text != "" && IDBOX.Text !="")
                 {
                     InfoTabel.Rows.Add(IDBOX.Text, EigenaarBox.Text);
-                    toegelaten.Add(IDBOX.Text);
+                    toegelaten.Add(IDBOX.Text+"\r");// we voegen \r toe de data gemakkelijker te vinden in waneer we hem zoeken via de arduino
 
                     EigenaarBox.Text = "";
                     EigenaarBox.BackColor = Color.White;
@@ -83,18 +84,32 @@ namespace eindwerk_Luka_Balcaen
                     {
                         IDBOX.BackColor = Color.Red;
                     }
+                    if (EigenaarBox.Text != "" )
+                    {
+                        EigenaarBox.BackColor = Color.White;
+                       
+                    }
+                    if (IDBOX.Text != "")
+                    {
+                        IDBOX.BackColor = Color.White;
+
+                    }
                 }
             }
         }
 
         private void Clearknop_Click(object sender, EventArgs e)
         {
+            wachtwoord wachtwoord = new wachtwoord();
+            wachtwoord.ShowDialog(); // wacht tot form sluit
             DialogResult dialogResult = MessageBox.Show("Ben je zeker dat je de volledig tabel wil verwijderen", "Bevestiging", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                InfoTabel.Rows.Clear();
+                if (wachtwoord.DialogResult == DialogResult.OK)
+                {
+                    InfoTabel.Rows.Clear();
+                }
             }
-
         }
 
         private void OntvangData(object sender, SerialDataReceivedEventArgs e)
@@ -105,16 +120,19 @@ namespace eindwerk_Luka_Balcaen
         }
         private void DataBewerk(string data)
         {
-            Poort.WriteLine("0");
-            Poort.WriteLine("255");
-            if (toegelaten.Contains(data))
+            
+            byte[] buffer = new byte[2];
+            if (toegelaten.Contains(data))// hier gaan we kijken of de data in de lijst staat
+            
             {
-                Poort.WriteLine("1");
+                buffer[0] = 1;
             }
             else
             {
-                Poort.WriteLine("0");
+                buffer[0] = 2;
+                
             }
+            Poort.Write(buffer, 0, buffer.Length);
         }
         private void BevestigKnop_Click(object sender, EventArgs e)
         {
@@ -138,7 +156,6 @@ namespace eindwerk_Luka_Balcaen
             SluitKnop.Enabled = false;
             OpenKnop.Visible = true;
             SluitKnop.Visible = false;
-
         }
 
         private void OpenKnop_Click(object sender, EventArgs e)
@@ -152,7 +169,6 @@ namespace eindwerk_Luka_Balcaen
                     SluitKnop.Enabled = true;
                     OpenKnop.Visible = false;
                     SluitKnop.Visible = true;
-
                 }
                 catch
                 {
@@ -160,8 +176,6 @@ namespace eindwerk_Luka_Balcaen
                     COMLijst.BackColor = Color.Red;
                     
                 }
-                
-
             }
             else
             {
