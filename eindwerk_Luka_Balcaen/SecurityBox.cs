@@ -129,7 +129,7 @@ namespace eindwerk_Luka_Balcaen
             }
             else
             {
-                buffer[0] = 2;
+                buffer[0] = 0;
                 
             }
             Poort.Write(buffer, 0, buffer.Length);
