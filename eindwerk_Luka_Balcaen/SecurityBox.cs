@@ -114,6 +114,7 @@ namespace eindwerk_Luka_Balcaen
 
         private void OntvangData(object sender, SerialDataReceivedEventArgs e)
         {
+            
             string data = Poort.ReadLine();
             DataBewerk(data);
 
@@ -121,18 +122,14 @@ namespace eindwerk_Luka_Balcaen
         private void DataBewerk(string data)
         {
             
-            byte[] buffer = new byte[2];
-            if (toegelaten.Contains(data))// hier gaan we kijken of de data in de lijst staat
-            
+            if (toegelaten.Contains(data))
             {
-                buffer[0] = 1;
+                Poort.Write("0");  
             }
             else
             {
-                buffer[0] = 0;
-                
+                Poort.Write("1");
             }
-            Poort.Write(buffer, 0, buffer.Length);
         }
         private void BevestigKnop_Click(object sender, EventArgs e)
         {
@@ -174,7 +171,6 @@ namespace eindwerk_Luka_Balcaen
                 {
                     MessageBox.Show("De poort is al in gebruik of niet beschikbaar");
                     COMLijst.BackColor = Color.Red;
-                    
                 }
             }
             else
