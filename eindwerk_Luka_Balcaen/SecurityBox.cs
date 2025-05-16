@@ -114,37 +114,36 @@ namespace eindwerk_Luka_Balcaen
 
         private void OntvangData(object sender, SerialDataReceivedEventArgs e)
         {
-            
-            string data = Poort.ReadLine();
-            DataBewerk(data);
+
+            try
+            {
+                string data = Poort.ReadLine();
+
+                if (data != null && data != "" ) 
+                {
+                    DataBewerk(data); 
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
 
         }
         private void DataBewerk(string data)
         {
-            
+           
+            byte[] buffer = new byte[2];
             if (toegelaten.Contains(data))
             {
-                Poort.Write("0");  
+                Poort.Write("0"); 
             }
             else
             {
                 Poort.Write("1");
             }
         }
-        private void BevestigKnop_Click(object sender, EventArgs e)
-        {
-            if (COMLijst.Text == "")
-            {
-                MessageBox.Show("Selecteer een COM poort");
-                COMLijst.BackColor = Color.Red;
-                return;
-            }
-            else
-            {
-                COMLijst.BackColor = Color.White;
-                Poort.PortName = COMLijst.Text;
-            }
-        }
+        
 
         private void SluitKnop_Click(object sender, EventArgs e)
         {
@@ -181,5 +180,22 @@ namespace eindwerk_Luka_Balcaen
             }
 
         }
+
+        private void COMLijst_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (COMLijst.Text == "")
+            {
+                MessageBox.Show("Selecteer een COM poort");
+                COMLijst.BackColor = Color.Red;
+                return;
+            }
+            else
+            {
+                COMLijst.BackColor = Color.White;
+                Poort.PortName = COMLijst.Text;
+            }
+        }
+
+        
     }
 }

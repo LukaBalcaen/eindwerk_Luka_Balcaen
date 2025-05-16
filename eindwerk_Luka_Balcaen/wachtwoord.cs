@@ -26,6 +26,7 @@ namespace eindwerk_Luka_Balcaen
             }
             else
             {
+
                 MessageBox.Show("Dit is geen geldige code");
             }
         }

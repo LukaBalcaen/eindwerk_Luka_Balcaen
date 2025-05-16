@@ -41,7 +41,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.COMLijst = new System.Windows.Forms.ComboBox();
             this.Poort = new System.IO.Ports.SerialPort(this.components);
-            this.BevistigKNop = new System.Windows.Forms.Label();
             this.OpenKnop = new System.Windows.Forms.Label();
             this.SluitKnop = new System.Windows.Forms.Label();
             this.KaartID = new System.Windows.Forms.Label();
@@ -153,7 +152,7 @@
             this.label2.AutoSize = true;
             this.label2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(65, 228);
+            this.label2.Location = new System.Drawing.Point(58, 228);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(175, 27);
             this.label2.TabIndex = 10;
@@ -162,29 +161,16 @@
             // COMLijst
             // 
             this.COMLijst.FormattingEnabled = true;
-            this.COMLijst.Location = new System.Drawing.Point(98, 258);
+            this.COMLijst.Location = new System.Drawing.Point(86, 258);
             this.COMLijst.Name = "COMLijst";
             this.COMLijst.Size = new System.Drawing.Size(121, 24);
             this.COMLijst.TabIndex = 11;
+            this.COMLijst.SelectedIndexChanged += new System.EventHandler(this.COMLijst_SelectedIndexChanged);
             // 
             // Poort
             // 
             this.Poort.PortName = " ";
             this.Poort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.OntvangData);
-            // 
-            // BevistigKNop
-            // 
-            this.BevistigKNop.AutoSize = true;
-            this.BevistigKNop.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.BevistigKNop.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.BevistigKNop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.BevistigKNop.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BevistigKNop.Location = new System.Drawing.Point(-2, 261);
-            this.BevistigKNop.Name = "BevistigKNop";
-            this.BevistigKNop.Size = new System.Drawing.Size(87, 18);
-            this.BevistigKNop.TabIndex = 13;
-            this.BevistigKNop.Text = "Bevestigen";
-            this.BevistigKNop.Click += new System.EventHandler(this.BevestigKnop_Click);
             // 
             // OpenKnop
             // 
@@ -208,7 +194,7 @@
             this.SluitKnop.Cursor = System.Windows.Forms.Cursors.Hand;
             this.SluitKnop.Enabled = false;
             this.SluitKnop.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SluitKnop.Location = new System.Drawing.Point(120, 285);
+            this.SluitKnop.Location = new System.Drawing.Point(105, 285);
             this.SluitKnop.Name = "SluitKnop";
             this.SluitKnop.Size = new System.Drawing.Size(69, 22);
             this.SluitKnop.TabIndex = 15;
@@ -241,7 +227,6 @@
             this.Controls.Add(this.KaartID);
             this.Controls.Add(this.SluitKnop);
             this.Controls.Add(this.OpenKnop);
-            this.Controls.Add(this.BevistigKNop);
             this.Controls.Add(this.COMLijst);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Clearknop);
@@ -274,7 +259,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox COMLijst;
         private System.IO.Ports.SerialPort Poort;
-        private System.Windows.Forms.Label BevistigKNop;
         private System.Windows.Forms.Label OpenKnop;
         private System.Windows.Forms.Label SluitKnop;
         private System.Windows.Forms.Label KaartID;
