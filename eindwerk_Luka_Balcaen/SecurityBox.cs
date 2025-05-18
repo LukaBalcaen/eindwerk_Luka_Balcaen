@@ -39,7 +39,7 @@ namespace eindwerk_Luka_Balcaen
 
         private void VerwijderKnop_Click(object sender, EventArgs e)
         {
-            wachtwoord wachtwoord = new wachtwoord();
+            wachtwoord wachtwoord = new wachtwoord(); 
             wachtwoord.ShowDialog(); // wacht tot form sluit
             if (wachtwoord.DialogResult == DialogResult.OK)// hier gaan we kijken op de resultaat juist is.
             {
@@ -62,20 +62,19 @@ namespace eindwerk_Luka_Balcaen
             wachtwoord wachtwoord = new wachtwoord();
             wachtwoord.ShowDialog(); // wacht tot form sluit
 
-            if (wachtwoord.DialogResult == DialogResult.OK)
+            if (wachtwoord.DialogResult == DialogResult.OK) // hier kijken we als de wachtwoord juist is.
             {
                 if (EigenaarBox.Text != "" && IDBOX.Text !="")
                 {
-                    InfoTabel.Rows.Add(IDBOX.Text, EigenaarBox.Text);
+                    InfoTabel.Rows.Add(IDBOX.Text, EigenaarBox.Text); 
                     toegelaten.Add(IDBOX.Text+"\r");// we voegen \r toe de data gemakkelijker te vinden in waneer we hem zoeken via de arduino
-
-                    EigenaarBox.Text = "";
-                    EigenaarBox.BackColor = Color.White;
+                    EigenaarBox.Text = ""; // hier werd de textbox leeggemaakt
+                    EigenaarBox.BackColor = Color.White; 
                     IDBOX.Text = "";
                 }
                 else
                 {
-                    MessageBox.Show("Je moet alle parameters invullen");
+                    MessageBox.Show("Je moet alle parameters invullen"); 
                     if(EigenaarBox.Text == "")
                     {
                         EigenaarBox.BackColor = Color.Red;
@@ -105,7 +104,7 @@ namespace eindwerk_Luka_Balcaen
             DialogResult dialogResult = MessageBox.Show("Ben je zeker dat je de volledig tabel wil verwijderen", "Bevestiging", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                if (wachtwoord.DialogResult == DialogResult.OK)
+                if (wachtwoord.DialogResult == DialogResult.OK) 
                 {
                     InfoTabel.Rows.Clear();
                 }
@@ -132,16 +131,16 @@ namespace eindwerk_Luka_Balcaen
         }
         private void DataBewerk(string data)
         {
-           
-            byte[] buffer = new byte[2];
-            if (toegelaten.Contains(data))
-            {
-                Poort.Write("0"); 
-            }
-            else
-            {
-                Poort.Write("1");
-            }
+
+                if (toegelaten.Contains(data))// als de id kaart is in dat tabel 
+                {
+                    Poort.Write("0"); // dan return je 0 
+                }
+                else
+                {
+                    Poort.Write("1"); // anders return 1
+                }
+            
         }
         
 
