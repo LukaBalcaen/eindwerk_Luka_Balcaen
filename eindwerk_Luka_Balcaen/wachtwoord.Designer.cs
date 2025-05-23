@@ -49,6 +49,7 @@
             this.CodeBox.Name = "CodeBox";
             this.CodeBox.Size = new System.Drawing.Size(194, 22);
             this.CodeBox.TabIndex = 2;
+            this.CodeBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.enterKnop);
             // 
             // BevestigKnop
             // 

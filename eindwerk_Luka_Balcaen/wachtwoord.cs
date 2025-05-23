@@ -30,5 +30,26 @@ namespace eindwerk_Luka_Balcaen
                 MessageBox.Show("Dit is geen geldige code");
             }
         }
+
+       
+
+       
+
+        private void enterKnop(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (CodeBox.Text == "admin")
+                {
+                    this.DialogResult = DialogResult.OK; // geeft signaal aan Form1
+                    this.Close();
+                }
+                else
+                {
+
+                    MessageBox.Show("Dit is geen geldige code");
+                }
+            }
+        }
     }
 }

@@ -49,6 +49,7 @@ namespace eindwerk_Luka_Balcaen
                     {
                         InfoTabel.Rows.RemoveAt(row.Index);
                     }
+                    toegelaten.RemoveAt(InfoTabel.CurrentRow.Index); // hier de data van het list verwijderd
                 }
                 catch
                 {
@@ -160,10 +161,11 @@ namespace eindwerk_Luka_Balcaen
                 try
                 {
                     Poort.Open();
-                    OpenKnop.Enabled = false;
+                    OpenKnop.Enabled = false; //hier maken het knop disabled
                     SluitKnop.Enabled = true;
-                    OpenKnop.Visible = false;
+                    OpenKnop.Visible = false;// hier maken we het knop niet meer zichtbaar
                     SluitKnop.Visible = true;
+                    COMLijst.BackColor = Color.White;
                 }
                 catch
                 {
